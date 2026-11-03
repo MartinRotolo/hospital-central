@@ -37,7 +37,7 @@ def calcular_total(importes, paciente):
     if paciente.tiene_obra_social:
         total *= FACTOR_DESCUENTO_OBRA_SOCIAL
 
-    if paciente.cantidad_turnos > TURNOS_PARA_BONIFICACION:
+    if paciente.cantidad_turnos > TURNOS_PARA_BONIFICACION and total > BONIFICACION:
         total -= BONIFICACION
 
     return total

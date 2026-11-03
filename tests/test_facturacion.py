@@ -92,3 +92,15 @@ def test_importe_negativo_lanza_error():
     # Act / Assert
     with pytest.raises(ValueError, match="negativos"):
         calcular_total(importes, paciente)
+
+
+def test_bonificacion_no_deja_el_total_en_negativo():
+    # Arrange
+    importes = [50]
+    paciente = DatosPaciente(False, False, 5)
+
+    # Act
+    total = calcular_total(importes, paciente)
+
+    # Assert
+    assert total == 50
