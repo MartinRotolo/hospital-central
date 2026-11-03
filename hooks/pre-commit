@@ -1,0 +1,26 @@
+#!/bin/sh
+# Pre-commit hook: ejecuta en orden Formatter, Linter y pruebas unitarias.
+# Si cualquiera de los controles falla, el commit se aborta.
+
+echo "== [1/3] Formatter (black) =="
+if ! python -m black --check .; then
+    echo "ERROR: el código no respeta el formato. Ejecutar: python -m black ."
+    echo "Commit abortado."
+    exit 1
+fi
+
+echo "== [2/3] Linter (ruff) =="
+if ! python -m ruff check .; then
+    echo "ERROR: el linter encontró problemas en el código."
+    echo "Commit abortado."
+    exit 1
+fi
+
+echo "== [3/3] Pruebas unitarias (pytest) y cobertura =="
+if ! python -m pytest --cov --cov-report=term-missing; then
+    echo "ERROR: hay pruebas fallidas o la cobertura es menor al 80%."
+    echo "Commit abortado."
+    exit 1
+fi
+
+echo "Todos los controles pasaron. Commit permitido."
